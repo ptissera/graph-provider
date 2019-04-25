@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/graph-provider",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
