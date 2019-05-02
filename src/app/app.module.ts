@@ -13,9 +13,13 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ItemPageComponent } from './components/item-page/item-page.component';
+import { ItemListComponent } from './components/item-list/item-list.component';
+import { ItemFormComponent } from './components/item-form/item-form.component';
+import { ItemProviderState } from './states/item-provider.states';
 
 const CONTAINERS = [];
-const COMPONENTS = [];
+const COMPONENTS = [ItemPageComponent, ItemListComponent, ItemFormComponent];
 
 // tslint:disable-next-line: whitespace
 @NgModule({
@@ -28,7 +32,7 @@ const COMPONENTS = [];
     BrowserModule,
     BrowserAnimationsModule,
     ClarityModule,
-    NgxsModule.forRoot([], {developmentMode: true}),
+    NgxsModule.forRoot([ItemProviderState], {developmentMode: true}),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),

@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
     constructor(
         @Inject(AngularFirestore) protected firestore: AngularFirestore,
     ) {
-
     }
 
     doc$(id: string): Observable<T> {
@@ -40,7 +39,7 @@ import { environment } from 'src/environments/environment';
 
     create(value: T) {
         const id = this.firestore.createId();
-        return this.collection.doc(id).set(Object.assign({}, { id }, value)).then(_ => {
+        return this.collection.doc(id).set({ ...value, id }).then(_ => {
             if (!environment.production) {
                 console.groupCollapsed(`Firestore Service [${this.basePath}] [create]`);
                 console.log('[Id]', id, value);
@@ -57,6 +56,20 @@ import { environment } from 'src/environments/environment';
                 console.groupEnd();
             }
         });
+    }
+
+    update(value: T) {
+        return this.collection.doc(value['id']).set(value).then(_ => {
+            if (!environment.production) {
+                console.groupCollapsed(`Firestore Service [${this.basePath}] [update]`);
+                console.log('[value]', value);
+                console.groupEnd();
+            }
+        })
+    }
+
+    getAll() {
+        return this.collection.snapshotChanges();
     }
 
     private get collection() {

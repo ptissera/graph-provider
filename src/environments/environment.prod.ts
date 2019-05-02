@@ -1,8 +1,5 @@
 export const environment = {
   production: true,
-  features: {
-    remix: false
-  },
   firebase: {
     apiKey: 'AIzaSyArtFXzzdasywX-8ejX3q5bwokZEBfdkEM',
     authDomain: 'graph-provider.firebaseapp.com',

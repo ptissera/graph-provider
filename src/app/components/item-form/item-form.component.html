@@ -1,0 +1,27 @@
+<form clrForm [formGroup]="itemProviderForm">
+  <clr-input-container>
+      <label>Name</label>
+      <input clrInput type="text" formControlName="name" />
+      <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
+      <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Address</label>
+    <input clrInput type="text" formControlName="address" />
+    <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
+    <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Phone</label>
+    <input clrInput type="text" formControlName="phone" />
+    <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
+    <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
+  </clr-input-container>
+  <div class="clr-checkbox-wrapper">
+    <input type="checkbox" id="isGold" name="isGold" value="true" class="clr-checkbox" formControlName="isGold">
+    <label for="isGold">is Gold</label>
+  </div>
+  <button class="btn btn-outline" *ngIf="selectedId==null" [disabled]="itemProviderForm.invalid" type="submit" (click)="add()">Add</button>
+  <button class="btn btn-success-outline" *ngIf="selectedId!=null" [disabled]="itemProviderForm.invalid" (click)="edit()">Edit</button>
+  <button class="btn btn-danger-outline" type="button" (click)="cancel()">Cancel</button>
+</form>
