@@ -39,7 +39,8 @@ import { environment } from 'src/environments/environment';
 
     create(value: T) {
         const id = this.firestore.createId();
-        return this.collection.doc(id).set({ ...value, id }).then(_ => {
+        value['id'] = id ;
+        return this.collection.doc(id).set(value).then(_ => {
             if (!environment.production) {
                 console.groupCollapsed(`Firestore Service [${this.basePath}] [create]`);
                 console.log('[Id]', id, value);
