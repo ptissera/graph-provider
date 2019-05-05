@@ -1,3 +1,4 @@
+<h1>{{selectedId==null ? 'Add' : 'Edit'}} Item Provider</h1>
 <form clrForm [formGroup]="itemProviderForm">
   <clr-input-container>
       <label>Name</label>
@@ -21,7 +22,10 @@
     <input type="checkbox" id="isGold" name="isGold" value="true" class="clr-checkbox" formControlName="isGold">
     <label for="isGold">is Gold</label>
   </div>
-  <button class="btn btn-outline" *ngIf="selectedId==null" [disabled]="itemProviderForm.invalid" type="submit" (click)="add()">Add</button>
-  <button class="btn btn-success-outline" *ngIf="selectedId!=null" [disabled]="itemProviderForm.invalid" (click)="edit()">Edit</button>
-  <button class="btn btn-danger-outline" type="button" (click)="cancel()">Cancel</button>
+  <br>
+  <div>
+    <button class="btn btn-outline" *ngIf="selectedId==null" [disabled]="itemProviderForm.invalid" type="submit" (click)="add()">Add</button>
+    <button class="btn btn-success-outline" *ngIf="selectedId!=null" [disabled]="itemProviderForm.invalid" (click)="edit()">Edit</button>
+    <button class="btn btn-danger-outline" type="button" (click)="cancel()">Cancel</button>
+  </div>
 </form>

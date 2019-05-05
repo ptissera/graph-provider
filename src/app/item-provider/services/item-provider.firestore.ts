@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ItemProvider } from '../models/item-provider.model';
-import { FirestoreService } from './firestore.service';
+import { FirestoreService } from '../../shared/states/firestore.service';
 
 @Injectable({
     providedIn: 'root'

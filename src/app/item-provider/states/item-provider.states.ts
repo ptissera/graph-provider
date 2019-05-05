@@ -3,6 +3,7 @@ import { state } from '@angular/animations';
 import { ItemProviderFirestore } from '../services/item-provider.firestore';
 import { ItemProvider } from '../models/item-provider.model';
 import { AddItemProviderAction, EditItemProviderAction, DeleteItemProviderAction, SelectItemProviderToEditAction, LoadItemProviderListAction } from '../actions/item-provider.actions';
+import { Navigate } from '@ngxs/router-plugin';
 
 export interface ItemProviderStateModel {
   itemProvider: ItemProvider,
@@ -21,6 +22,11 @@ export const getAppInitialState = (): ItemProviderStateModel => ({
   defaults: getAppInitialState()
 })
 export class ItemProviderState {
+
+  routePath = '/item-provider';
+  listPath = `${this.routePath}`;
+  editPath = `${this.routePath}/edit`;
+
   constructor(private store: Store, private itemProviderFirestore: ItemProviderFirestore) {}
 
   @Selector()
@@ -51,6 +57,7 @@ export class ItemProviderState {
       ...state,
       ...current
     });
+    this.store.dispatch(new Navigate([this.listPath]));
   }
 
   @Action(EditItemProviderAction)
@@ -71,6 +78,7 @@ export class ItemProviderState {
       ...state,
       ...current
     });
+    this.store.dispatch(new Navigate([this.listPath]));
   }
 
 
@@ -89,6 +97,7 @@ export class ItemProviderState {
       ...state,
       ...current
     });
+    this.store.dispatch(new Navigate([this.listPath]));
   }
 
   @Action(SelectItemProviderToEditAction)
@@ -101,6 +110,7 @@ export class ItemProviderState {
         ...state,
         ...current
       });
+      this.store.dispatch(new Navigate([this.editPath]));
     }
 
     @Action(LoadItemProviderListAction)

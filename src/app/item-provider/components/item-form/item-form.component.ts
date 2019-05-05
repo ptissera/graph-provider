@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
-import { AddItemProviderAction, EditItemProviderAction } from 'src/app/actions/item-provider.actions';
-import { ItemProviderState } from 'src/app/states/item-provider.states';
+import { ItemProviderState } from '../../states/item-provider.states';
+import { AddItemProviderAction, EditItemProviderAction } from '../../actions/item-provider.actions';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
-  selector: 'app-item-form',
+  selector: 'gp-item-form',
   templateUrl: './item-form.component.html',
-  styleUrls: ['./item-form.component.sass']
+  styleUrls: ['./item-form.component.scss']
 })
 export class ItemFormComponent implements OnInit {
 
@@ -49,6 +50,7 @@ export class ItemFormComponent implements OnInit {
 
   cancel() {
     this.clearForm();
+    this.store.dispatch(new Navigate(['/item-provider']));
   }
 
   async add() {    

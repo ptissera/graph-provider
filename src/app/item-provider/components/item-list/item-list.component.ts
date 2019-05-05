@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemProviderState } from 'src/app/states/item-provider.states';
 import { Select, Store } from '@ngxs/store';
-import { LoadItemProviderListAction, SelectItemProviderToEditAction, DeleteItemProviderAction } from 'src/app/actions/item-provider.actions';
+import { ItemProviderState } from '../../states/item-provider.states';
+import { LoadItemProviderListAction, SelectItemProviderToEditAction, DeleteItemProviderAction } from '../../actions/item-provider.actions';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
-  selector: 'app-item-list',
+  selector: 'gp-item-list',
   templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.sass']
+  styleUrls: ['./item-list.component.scss']
 })
 export class ItemListComponent implements OnInit {
 
@@ -25,6 +26,10 @@ export class ItemListComponent implements OnInit {
 
   delete(id: string) {
     this.store.dispatch(new DeleteItemProviderAction(id));
+  }
+
+  add() {
+    this.store.dispatch(new Navigate(['/item-provider/add']));
   }
 
 }
