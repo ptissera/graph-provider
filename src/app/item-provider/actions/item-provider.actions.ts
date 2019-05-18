@@ -1,4 +1,5 @@
 import { ItemProvider } from "../models/item-provider.model";
+import { Upload } from "src/app/shared/models/upload.model";
 
 export class LoadDefaultValuesItemProviderAction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             {
   static readonly type = '[ItemProvider Component] Load default values';
@@ -33,6 +34,16 @@ export class LoadListOfValuesErrorItemProviderAction {
 export class AddItemProviderAction {                                                                                                                                                                                        
   static readonly type = '[ItemProvider Component] Add ItemProvider';
   constructor(public itemProvider: ItemProvider) {}
+}
+
+export class UploadImageItemProviderAction {
+  static readonly type = '[ItemProvider Component] Upload Image ItemProvider';
+  constructor(public upload: Upload) {}
+}
+
+export class CompleteUploadImageItemProviderAction {
+  static readonly type = '[ItemProvider Component] Complete Upload Image ItemProvider';
+  constructor(public url: String) {}
 }
 
 export class EditItemProviderAction {

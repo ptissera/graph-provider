@@ -3,9 +3,8 @@
   <clr-input-container>
       <label>Name</label>
       <input clrInput type="text" formControlName="name" />
-      <clr-control-helper>Helper text that shows while it is pristine and valid</clr-control-helper>
-      <clr-control-error>Error message that appears after focus is lost and control is invalid</clr-control-error>
-  </clr-input-container>
+      <clr-control-error>Name is required</clr-control-error>
+  </clr-input-container>    
   <clr-input-container>
     <label>Address</label>
     <input clrInput type="text" formControlName="address" />
@@ -21,6 +20,10 @@
   <div class="clr-checkbox-wrapper">
     <input type="checkbox" id="isGold" name="isGold" value="true" class="clr-checkbox" formControlName="isGold">
     <label for="isGold">is Gold</label>
+  </div>
+  <div>
+      <input #file accept="image/*" class="btn btn-success-outline" type="file" formControlName="archivo" (change)="cambioArchivo(file.files)">
+      <img [src]="imgURL" height="200" *ngIf="imgURL">
   </div>
   <br>
   <div>

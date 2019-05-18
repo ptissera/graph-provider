@@ -2,8 +2,9 @@ import { State, Store, StateContext, Action, Selector, createSelector } from '@n
 import { state } from '@angular/animations';
 import { ItemProviderFirestore } from '../services/item-provider.firestore';
 import { ItemProvider } from '../models/item-provider.model';
-import { AddItemProviderAction, EditItemProviderAction, DeleteItemProviderAction, SelectItemProviderToEditAction, LoadItemProviderListAction } from '../actions/item-provider.actions';
+import { AddItemProviderAction, EditItemProviderAction, DeleteItemProviderAction, SelectItemProviderToEditAction, LoadItemProviderListAction, UploadImageItemProviderAction } from '../actions/item-provider.actions';
 import { Navigate } from '@ngxs/router-plugin';
+import { FirebaseStorageService } from 'src/app/shared/services/firebase-storage.service';
 
 export interface ItemProviderStateModel {
   itemProvider: ItemProvider,
@@ -27,7 +28,8 @@ export class ItemProviderState {
   listPath = `${this.routePath}`;
   editPath = `${this.routePath}/edit`;
 
-  constructor(private store: Store, private itemProviderFirestore: ItemProviderFirestore) {}
+  constructor(private store: Store, private itemProviderFirestore: ItemProviderFirestore,
+    private firebaseStorage: FirebaseStorageService) {}
 
   @Selector()
   static itemProviderList(state: ItemProviderStateModel) {
@@ -39,25 +41,57 @@ export class ItemProviderState {
     return state.selectedItemProvider;
   }
 
-  @Action(AddItemProviderAction)
-  AddItemProviderState(ctx: StateContext<ItemProviderStateModel>, action: AddItemProviderAction) {
-    const state = ctx.getState();
-    this.itemProviderFirestore.create(action.itemProvider).then(
-      res => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-    const current = {
-      itemProviderList: [...state.itemProviderList, action.itemProvider]
-    };
-    ctx.patchState({
-      ...state,
-      ...current
+  @Action(UploadImageItemProviderAction)
+  async UploadImageItemProviderState(ctx: StateContext<ItemProviderStateModel>, action: UploadImageItemProviderAction) {
+    const file = action.upload.file;
+    const fileName = action.upload.name;
+    let referencia = this.firebaseStorage.referenciaCloudStorage(fileName);
+    let tarea = this.firebaseStorage.tareaCloudStorage(fileName, file);
+    
+    await tarea.percentageChanges().subscribe((porcentaje) => {
+     if (Math.round(porcentaje) == 100) {
+        referencia.getDownloadURL().subscribe((URL) => {
+          return URL;    
+        });
+     }
     });
-    this.store.dispatch(new Navigate([this.listPath]));
+  }
+
+  @Action(AddItemProviderAction)
+  async AddItemProviderState(ctx: StateContext<ItemProviderStateModel>, action: AddItemProviderAction) {
+
+    const y = await this.store.dispatch(new UploadImageItemProviderAction(action.itemProvider.archivo));
+    console.log()
+    const file = action.itemProvider.archivo.file;
+    const fileName = action.itemProvider.archivo.name;
+    let referencia = this.firebaseStorage.referenciaCloudStorage(fileName);
+    let tarea = this.firebaseStorage.tareaCloudStorage(fileName, file);
+    //Cambia el porcentaje
+    tarea.percentageChanges().subscribe((porcentaje) => {
+     if (Math.round(porcentaje) == 100) {
+        referencia.getDownloadURL().subscribe((URL) => {
+          action.itemProvider.archivo.url = URL;
+        });
+     }
+    });
+
+    // const state = ctx.getState();
+    // this.itemProviderFirestore.create(action.itemProvider).then(
+    //   res => {
+    //     console.log(res);
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
+    // const current = {
+    //   itemProviderList: [...state.itemProviderList, action.itemProvider]
+    // };
+    // ctx.patchState({
+    //   ...state,
+    //   ...current
+    // });
+    // this.store.dispatch(new Navigate([this.listPath]));
   }
 
   @Action(EditItemProviderAction)

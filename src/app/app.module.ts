@@ -11,7 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ItemProviderState } from './item-provider/states/item-provider.states';
@@ -20,6 +20,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomePageComponent } from './shared/components/home-page/home-page.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { ItemProviderModule } from './item-provider/item-provider.module';
+import { FirestoreService } from './shared/services/firestore.service';
+import { FirebaseStorageService } from './shared/services/firebase-storage.service';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 const CONTAINERS = [];
 const COMPONENTS = [];
@@ -29,7 +32,7 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent }
 ];
 
-const appModules = [
+const APP_MODULES = [
   ItemProviderModule
 ];
 
@@ -52,12 +55,19 @@ const appModules = [
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),
+    AngularFireModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     ReactiveFormsModule,
-    ...appModules,
+    ...APP_MODULES,
   ],
-  providers: [],
+  providers: [
+    AngularFirestore    
+  ],
+  exports: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

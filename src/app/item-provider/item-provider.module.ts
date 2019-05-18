@@ -44,6 +44,7 @@ const appRoutes: Routes = [
     NgxsRouterPluginModule.forRoot(),
     ReactiveFormsModule,
   ],
+  providers: [],
   exports: [
     RouterModule
   ]
