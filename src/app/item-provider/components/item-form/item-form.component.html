@@ -22,7 +22,7 @@
     <label for="isGold">is Gold</label>
   </div>
   <div>
-      <input #file accept="image/*" class="btn btn-success-outline" type="file" formControlName="archivo" (change)="cambioArchivo(file.files)">
+      <input #file accept="image/*" class="btn btn-success-outline" type="file" formControlName="image" (change)="fileChange(file.files)">
       <img [src]="imgURL" height="200" *ngIf="imgURL">
   </div>
   <br>

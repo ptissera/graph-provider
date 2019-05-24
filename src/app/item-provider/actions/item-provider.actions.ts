@@ -33,22 +33,12 @@ export class LoadListOfValuesErrorItemProviderAction {
 
 export class AddItemProviderAction {                                                                                                                                                                                        
   static readonly type = '[ItemProvider Component] Add ItemProvider';
-  constructor(public itemProvider: ItemProvider) {}
-}
-
-export class UploadImageItemProviderAction {
-  static readonly type = '[ItemProvider Component] Upload Image ItemProvider';
-  constructor(public upload: Upload) {}
-}
-
-export class CompleteUploadImageItemProviderAction {
-  static readonly type = '[ItemProvider Component] Complete Upload Image ItemProvider';
-  constructor(public url: String) {}
+  constructor(public itemProvider: ItemProvider, public image: File) {}
 }
 
 export class EditItemProviderAction {
   static readonly type = '[ItemProvider Component] Edit ItemProvider';
-  constructor(public itemProvider: ItemProvider) {}
+  constructor(public itemProvider: ItemProvider, public image: File) {}
 }
 
 export class DeleteItemProviderAction {

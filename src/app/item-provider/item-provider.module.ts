@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClarityModule } from '@clr/angular';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoadingState } from '../shared/states/loading.states';
 
 const CONTAINERS = [];
 const COMPONENTS = [ItemListComponent, ItemFormComponent];
@@ -40,7 +41,6 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     ClarityModule,
     RouterModule.forRoot(appRoutes),
-    NgxsModule.forRoot([ItemProviderState], {developmentMode: true}),
     NgxsRouterPluginModule.forRoot(),
     ReactiveFormsModule,
   ],

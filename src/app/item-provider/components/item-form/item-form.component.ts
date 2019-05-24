@@ -19,9 +19,8 @@ export class ItemFormComponent implements OnInit {
 
   selectedId = null;
   itemProviderForm;
-  uploadFile: Upload; 
+  uploadFile: File; 
   imgURL: any;
-  
   
   constructor(private store: Store, private formBuilder: FormBuilder,
     private firebaseStorage: FirebaseStorageService) {
@@ -34,46 +33,29 @@ export class ItemFormComponent implements OnInit {
           name: data.name,
           address: data.address,
           phone: data.phone,
-          isGold: data.isGold,
-          archivo: data.archivo
+          isGold: data.isGold
         });
+        this.imgURL = data.url;
       }
     });
   }
 
   ngOnInit() {}
 
-  //Evento que se gatilla cuando el input de tipo archivo cambia
-  public cambioArchivo(files) {
+  public fileChange(files) {
     if (files.length === 1) {      
-        var reader = new FileReader();
-        this.uploadFile = new Upload(files[0]);
-
-        reader.readAsDataURL(files[0]); 
-        reader.onload = (_event) => { 
-          this.imgURL = reader.result; 
-        }
-       // this.datosFormulario.delete('archivo');
-       // this.datosFormulario.append('archivo', files[0], files[0].name)
+      this.loadImage(files[0]);
     }
   }
 
-  //Sube el archivo a Cloud Storage
-  public subirArchivo() {
-    // let archivo = this.datosFormulario.get('archivo');
-    // let referencia = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo);
-    // let tarea = this.firebaseStorage.tareaCloudStorage(this.nombreArchivo, archivo);
-    // //Cambia el porcentaje
-    // tarea.percentageChanges().subscribe((porcentaje) => {
-    //   this.porcentaje = Math.round(porcentaje);
-    //   if (this.porcentaje == 100) {
-    //     this.finalizado = true;
-    //   }
-    // });
+  loadImage(file) {
+    var reader = new FileReader();
+    this.uploadFile = file;
 
-    // referencia.getDownloadURL().subscribe((URL) => {
-    //   this.URLPublica = URL;
-    // });
+    reader.readAsDataURL(file); 
+    reader.onload = (_event) => { 
+      this.imgURL = reader.result; 
+    }
   }
 
   createForm() {
@@ -82,7 +64,7 @@ export class ItemFormComponent implements OnInit {
         address: ['', Validators.required],
         phone: ['', Validators.required],
         isGold: [false, Validators.required],
-        archivo: [null, Validators.required]
+        image: [null]
       });
   }
 
@@ -97,10 +79,10 @@ export class ItemFormComponent implements OnInit {
       name: this.itemProviderForm.value.name,
       address: this.itemProviderForm.value.address, 
       phone: this.itemProviderForm.value.phone,
-      isGold: this.itemProviderForm.value.isGold || false,
-      archivo: this.uploadFile,
+      isGold: this.itemProviderForm.value.isGold || false,    
+      url: null,  
       id: null
-    }));
+    }, this.uploadFile));
     this.clearForm();
   }
 
@@ -110,9 +92,9 @@ export class ItemFormComponent implements OnInit {
       address: this.itemProviderForm.value.address, 
       phone: this.itemProviderForm.value.phone,
       isGold: this.itemProviderForm.value.isGold || false,
-      archivo: this.itemProviderForm.value.archivo,
+      url: this.imgURL,
       id: this.selectedId
-    })).subscribe(() => {
+    }, this.uploadFile)).subscribe(() => {
       this.clearForm();
     });
   }

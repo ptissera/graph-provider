@@ -23,6 +23,8 @@ import { ItemProviderModule } from './item-provider/item-provider.module';
 import { FirestoreService } from './shared/services/firestore.service';
 import { FirebaseStorageService } from './shared/services/firebase-storage.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { LoadingComponent } from './shared/components/loading/loading.component';
+import { LoadingState } from './shared/states/loading.states';
 
 const CONTAINERS = [];
 const COMPONENTS = [];
@@ -45,13 +47,14 @@ const APP_MODULES = [
     LeftNavMenuComponent,
     HomePageComponent,
     PageNotFoundComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ClarityModule,
     RouterModule.forRoot(appRoutes),
-    NgxsModule.forRoot([ItemProviderState], {developmentMode: true}),
+    NgxsModule.forRoot([ItemProviderState, LoadingState], {developmentMode: true}),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot(),

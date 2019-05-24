@@ -1,0 +1,11 @@
+<div *ngIf="show$ | async">
+    <div class="center-loading">
+      <div class="loading-container">
+        <span class="spinner spinner-inverse">
+        </span>
+         <br>
+        <label *ngIf="label$ | async">{{label$ | async}}</label>
+        <label *ngIf="showProgress$ | async">{{progress$ | async}} %</label>
+      </div>
+  </div>
+</div>
