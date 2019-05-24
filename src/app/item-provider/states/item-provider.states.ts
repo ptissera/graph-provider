@@ -5,7 +5,7 @@ import { ItemProvider } from '../models/item-provider.model';
 import { AddItemProviderAction, EditItemProviderAction, DeleteItemProviderAction, SelectItemProviderToEditAction, LoadItemProviderListAction } from '../actions/item-provider.actions';
 import { Navigate } from '@ngxs/router-plugin';
 import { FirebaseStorageService } from 'src/app/shared/services/firebase-storage.service';
-import { ShowLoadingAction, UpdateLoadingProgressAction, UpdateLoadingLabelAction, HideLoadingAction, ShowLoadingProgressAction } from 'src/app/shared/actions/loading.actions';
+import { ShowLoadingAction, UpdateLoadingProgressAction, UpdateLoadingLabelAction, HideLoadingAction, ShowLoadingProgressAction, HideLoadingProgressAction } from 'src/app/shared/actions/loading.actions';
 
 export interface ItemProviderStateModel {
   itemProvider: ItemProvider,
@@ -55,8 +55,8 @@ export class ItemProviderState {
   addItemProvider(ctx, itemProvider: ItemProvider) {
     const state = ctx.getState();
     this.itemProviderFirestore.create(itemProvider).then(
-      res => console.log(res),
-      error => console.log(error)
+      res => this.store.dispatch(new HideLoadingAction()),
+      error => this.store.dispatch(new HideLoadingAction())
     );
     const current = {
       itemProviderList: [...state.itemProviderList, itemProvider]
@@ -82,7 +82,8 @@ export class ItemProviderState {
      if (Math.round(porcentaje) == 100) {
         referencia.getDownloadURL().subscribe((URL) => {
           itemProvider.url = URL;
-          this.store.dispatch(new UpdateLoadingLabelAction(''));
+          this.store.dispatch(new HideLoadingProgressAction());
+          this.store.dispatch(new UpdateLoadingLabelAction('Saving item provider'));
           saveFunction(itemProvider);
         });
      }
@@ -102,8 +103,8 @@ export class ItemProviderState {
   updateItemProvider(ctx: StateContext<ItemProviderStateModel>, itemProvider: ItemProvider) {
     const state = ctx.getState();
     this.itemProviderFirestore.update(itemProvider).then(
-      res => console.log(res),
-      error => console.log(error)
+      res => this.store.dispatch(new HideLoadingAction()),
+      error => this.store.dispatch(new HideLoadingAction())
     );
     const current = {
       selectedItemProvider: null

@@ -1,4 +1,4 @@
-import { ShowLoadingAction, HideLoadingAction, UpdateLoadingLabelAction, ShowLoadingProgressAction, HideLoadingProgressAction } from "../actions/loading.actions";
+import { ShowLoadingAction, HideLoadingAction, UpdateLoadingLabelAction, ShowLoadingProgressAction, HideLoadingProgressAction, UpdateLoadingProgressAction } from "../actions/loading.actions";
 import { Selector, State, StateContext, Action, Store } from "@ngxs/store";
 
 export interface LoadingStateModel {
@@ -82,12 +82,27 @@ export class LoadingState {
     });
    }
 
+   @Action(UpdateLoadingProgressAction)
+   UpdateLoadingProgressState(ctx: StateContext<LoadingStateModel>, action: UpdateLoadingProgressAction) {
+    const state = ctx.getState();
+    const current = {
+      progress: action.progress
+    };
+    ctx.patchState({
+      ...state,
+      ...current
+    });
+   }
+
 
    @Action(HideLoadingAction)
   HideLoadingState(ctx: StateContext<LoadingStateModel>, action: HideLoadingAction) {
     const state = ctx.getState();
     const current = {
-      show: false
+      show: false,
+      showProgress: false,
+      progress: 0,
+      label: ''
     };
     ctx.patchState({
       ...state,
