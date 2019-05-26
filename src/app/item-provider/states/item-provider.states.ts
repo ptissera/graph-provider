@@ -46,13 +46,13 @@ export class ItemProviderState {
   AddItemProviderState(ctx: StateContext<ItemProviderStateModel>, action: AddItemProviderAction) {    
     if (action.image != null) { 
       this.store.dispatch(new ShowLoadingAction('Uploading image...'));
-      this.uploadImage(ctx, action.image, action.itemProvider, this.addItemProvider)    
+      this.uploadImage(ctx, action.image, action.itemProvider, this.addItemProvider);
     } else {
       this.addItemProvider(ctx, action.itemProvider);
     }
   }
 
-  addItemProvider(ctx, itemProvider: ItemProvider) {
+   addItemProvider = (ctx, itemProvider: ItemProvider) => {
     const state = ctx.getState();
     this.itemProviderFirestore.create(itemProvider).then(
       res => this.store.dispatch(new HideLoadingAction()),
@@ -84,7 +84,7 @@ export class ItemProviderState {
           itemProvider.url = URL;
           this.store.dispatch(new HideLoadingProgressAction());
           this.store.dispatch(new UpdateLoadingLabelAction('Saving item provider'));
-          saveFunction(itemProvider);
+          saveFunction(ctx, itemProvider);
         });
      }
     });
@@ -92,15 +92,15 @@ export class ItemProviderState {
 
   @Action(EditItemProviderAction)
   EditItemProviderState(ctx: StateContext<ItemProviderStateModel>, action: EditItemProviderAction) {
-
     if (action.image != null) { 
-      this.uploadImage(ctx, action.image, action.itemProvider, this.updateItemProvider)    
+      this.uploadImage(ctx, action.image, action.itemProvider, this.updateItemProvider);
+      this.store.dispatch(new ShowLoadingAction('Uploading image...')); 
     } else {
       this.updateItemProvider(ctx, action.itemProvider);
     }
   }
 
-  updateItemProvider(ctx: StateContext<ItemProviderStateModel>, itemProvider: ItemProvider) {
+  updateItemProvider = (ctx, itemProvider: ItemProvider) => {
     const state = ctx.getState();
     this.itemProviderFirestore.update(itemProvider).then(
       res => this.store.dispatch(new HideLoadingAction()),
@@ -113,6 +113,7 @@ export class ItemProviderState {
       ...state,
       ...current
     });
+    this.store.dispatch(new HideLoadingAction());
     this.store.dispatch(new Navigate([this.listPath]));
   }
 

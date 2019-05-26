@@ -1,3 +1,16 @@
-<p>
-  home-page works!
-</p>
+<div class="card-columns">
+  <div *ngFor="let item of (itemProviderList$ | async)"
+       class="card">
+      <div *ngIf="item.url != null" class="card-img">
+          <img [src]="item.url">
+      </div>
+      <div class="card-block">
+          <p class="card-text">
+              {{item.name}}<br>
+              {{item.address}}<br>
+              {{item.phone}}<br>
+              Gold: {{item.isGold? 'Yes' : 'No'}}
+          </p>
+      </div>
+  </div>
+</div>

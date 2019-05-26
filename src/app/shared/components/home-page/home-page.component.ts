@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ItemProviderState } from 'src/app/item-provider/states/item-provider.states';
+import { Select, Store } from '@ngxs/store';
+import { LoadItemProviderListAction } from 'src/app/item-provider/actions/item-provider.actions';
 
 @Component({
   selector: 'gp-home-page',
@@ -7,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
+  @Select(ItemProviderState.itemProviderList)
+  itemProviderList$: any
   
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit() {
+    this.store.dispatch(new LoadItemProviderListAction());
   }
 
 }
