@@ -25,9 +25,18 @@ import { FirebaseStorageService } from './shared/services/firebase-storage.servi
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { LoadingComponent } from './shared/components/loading/loading.component';
 import { LoadingState } from './shared/states/loading.states';
+import { LoginComponent } from './shared/components/login/login.component';
+import { HeaderComponent } from './shared/components/header/header.component';
 
 const CONTAINERS = [];
-const COMPONENTS = [];
+const COMPONENTS = [
+  LeftNavMenuComponent,
+  HomePageComponent,
+  PageNotFoundComponent,
+  LoadingComponent,
+  LoginComponent,
+  HeaderComponent
+];
 
 const appRoutes: Routes = [
   { path: 'home', component: HomePageComponent },
@@ -43,11 +52,7 @@ const APP_MODULES = [
   declarations: [
     AppComponent,
     ...CONTAINERS,
-    ...COMPONENTS,
-    LeftNavMenuComponent,
-    HomePageComponent,
-    PageNotFoundComponent,
-    LoadingComponent,
+    ...COMPONENTS
   ],
   imports: [
     BrowserModule,
